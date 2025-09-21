@@ -50,9 +50,46 @@ kotlin {
 
 
 publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/jakubbbdev/nutshell")
+            credentials {
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
+            }
+        }
+    }
     publications {
         create<MavenPublication>("maven") {
             from(components["java"])
+            
+            pom {
+                name.set("Nutshell MongoDB")
+                description.set("A powerful MongoDB library for Kotlin with annotations and repository pattern")
+                url.set("https://github.com/jakubbbdev/nutshell")
+                
+                licenses {
+                    license {
+                        name.set("MIT License")
+                        url.set("https://opensource.org/licenses/MIT")
+                    }
+                }
+                
+                developers {
+                    developer {
+                        id.set("jakubbbdev")
+                        name.set("Jakub")
+                        email.set("jakub@example.com")
+                    }
+                }
+                
+                scm {
+                    connection.set("scm:git:git://github.com/jakubbbdev/nutshell.git")
+                    developerConnection.set("scm:git:ssh://github.com/jakubbbdev/nutshell.git")
+                    url.set("https://github.com/jakubbbdev/nutshell")
+                }
+            }
         }
     }
 }
